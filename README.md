@@ -8,6 +8,8 @@ docker run --rm -v ${PWD}:/local swaggerapi/swagger-codegen-cli generate \
     -l python \
     -o /local/strava
 
+
+pip freeze|awk '{FS="=="}{print $1}' > requirements.txt
 ```
 
 
