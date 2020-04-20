@@ -1,3 +1,4 @@
+![Python application](https://github.com/mchirico/strava/workflows/Python%20application/badge.svg)
 # Strava
 
 Setup
