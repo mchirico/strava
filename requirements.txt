@@ -1,4 +1,4 @@
-alabaster==0.7.12
+alabaster
 atomicwrites
 attrs
 Babel
@@ -40,7 +40,6 @@ sphinxcontrib-htmlhelp
 sphinxcontrib-jsmath
 sphinxcontrib-qthelp
 sphinxcontrib-serializinghtml
-swagger-client
 urllib3
 wcwidth
 zipp
