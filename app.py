@@ -5,6 +5,8 @@ import credentials
 # from gmail.bigQuery.bigquery import BigQ
 
 from flask import Flask, request
+from firebase.firebase import db, UserData
+
 import requests
 
 # from gmail.pubsub.pubsub import PubSub
@@ -32,7 +34,16 @@ def create_app():
             code = request.args.get('code')
             scope = request.args.get('scope')
             a = credentials.creds.Auth(code)
-            return 'code: {}\n\nr: {}'.format(code, a.getAuth().text)
+            d = a.getAuth()
+            if 'expires_at' in d:
+                u = UserData(d['athlete']['id'], d['athlete']['lastname'],
+                             d['athlete']['firstname'],
+                             d['access_token'],
+                             d['refresh_token'], d['expires_at'])
+                u.update()
+                return 'code: {}\n\nr: {}'.format(code, d)
+
+            return 'code: {}\n\nr: {}'.format(code, 'error')
 
     @app.route('/')
     def hello_world():

@@ -1,5 +1,7 @@
 from unittest import TestCase
-from firebase.firebase import db
+from firebase.firebase import db, UserData
+from credentials.creds import Auth
+import json
 
 
 class FirebaseTestSuite(TestCase):
@@ -21,3 +23,13 @@ class FirebaseTestSuite(TestCase):
 
         for doc in docs:
             print(u'{} => {}'.format(doc.id, doc.to_dict()))
+
+    def test_UserData(self):
+        u = UserData('0', 'smith', 'john', '99b', '99b', 1587499052)
+        u.update()
+
+    def test_SampleData(self):
+        a = Auth(3)
+        s = a.sampleData()
+        j = json.loads(s)
+        print(j)
