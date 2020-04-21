@@ -4,13 +4,17 @@ attrs
 Babel
 certifi
 chardet
+click
 coverage
 docutils
 entrypoints
 flake8
+Flask
+gunicorn
 idna
 imagesize
 importlib-metadata
+itsdangerous
 Jinja2
 MarkupSafe
 mccabe
@@ -40,6 +44,8 @@ sphinxcontrib-htmlhelp
 sphinxcontrib-jsmath
 sphinxcontrib-qthelp
 sphinxcontrib-serializinghtml
+swagger-client
 urllib3
 wcwidth
+Werkzeug
 zipp
