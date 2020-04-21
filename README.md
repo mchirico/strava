@@ -1,4 +1,5 @@
-![Python application](https://github.com/mchirico/strava/workflows/Python%20application/badge.svg)
+![Cloud Build](https://github.com/mchirico/strava/workflows/Cloud%20Build/badge.svg)
+[![codecov](https://codecov.io/gh/mchirico/strava/branch/master/graph/badge.svg)](https://codecov.io/gh/mchirico/strava)
 # Strava
 
 Setup
