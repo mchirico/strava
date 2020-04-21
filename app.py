@@ -1,6 +1,7 @@
 import os
 import threading
 import atexit
+import credentials
 # from gmail.bigQuery.bigquery import BigQ
 
 from flask import Flask, request
@@ -27,11 +28,11 @@ def create_app():
         if request.method == 'POST':
             return 'post: {}\n'.format(request)
         else:
-            r = requests.get('https://api.github.com/events')
             state = request.args.get('state')
             code = request.args.get('code')
             scope = request.args.get('scope')
-            return 'code: {}\n\nr: {}'.format(code,r.text[0:45])
+            a = credentials.creds.Auth(code)
+            return 'code: {}\n\nr: {}'.format(code, a.getAuth().text)
 
     @app.route('/')
     def hello_world():
