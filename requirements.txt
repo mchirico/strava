@@ -6,6 +6,7 @@ certifi
 chardet
 click
 coverage
+firebase-admin
 docutils
 entrypoints
 Flask
