@@ -34,6 +34,7 @@ import credentials
 configuration = swagger_client.Configuration()
 configuration.access_token = credentials.getMycreds()
 
+
 # swagger_client.ActivitiesApi(swagger_client.ApiClient(configuration))
 
 
@@ -41,6 +42,8 @@ class TestActivitiesApi(unittest.TestCase):
     """ActivitiesApi unit test stubs"""
 
     def setUp(self):
+        self.route = swagger_client.RoutesApi(
+            swagger_client.ApiClient(configuration))
         self.api = swagger_client.api.activities_api.ActivitiesApi(
             swagger_client.ApiClient(configuration))  # noqa:
         # E501
@@ -65,7 +68,6 @@ class TestActivitiesApi(unittest.TestCase):
         pass
 
     def test_get_activity_by_id(self):
-
         activity_id = 3317805693
         api_response = self.api.get_activity_by_id(activity_id)
 
@@ -74,8 +76,12 @@ class TestActivitiesApi(unittest.TestCase):
         pprint(api_response)
 
         # Seems to be similar with above
-        self.api.get_activity_by_id_with_http_info(activity_id)
+        api_response = self.api.get_activity_by_id_with_http_info(activity_id)
         pprint(api_response)
+
+        # TODO: find way to make this work.
+        #r = self.route.get_route_as_gpx(3322177112)
+
 
         pass
 
