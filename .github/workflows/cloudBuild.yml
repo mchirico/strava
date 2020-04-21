@@ -62,7 +62,7 @@ jobs:
         pip install pytest
         pip install pytest-cov
         pip install codecov
-        pytest --cov-report=xml --cov=gmail -p no:warnings tests/
+        pytest --cov-report=xml --cov=swagger_client -p no:warnings test/
         codecov --token="${CODECOV_TOKEN}"
       env:
         CI: true
