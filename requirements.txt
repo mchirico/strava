@@ -44,7 +44,6 @@ sphinxcontrib-htmlhelp
 sphinxcontrib-jsmath
 sphinxcontrib-qthelp
 sphinxcontrib-serializinghtml
-swagger-client
 urllib3
 wcwidth
 Werkzeug
