@@ -51,6 +51,11 @@ class TestActivitiesApi(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def testCreds(self):
+        a = credentials.creds.Auth('33e3e2b6056587fb5b22d7f6f27a0609861ed7a4')
+        r = a.getAuth()
+        print(r)
+
     def test_getActivity(self):
         before = 1587426805  # Integer | An epoch timestamp to use for filtering
         # activities that have taken place before a certain time. (optional)

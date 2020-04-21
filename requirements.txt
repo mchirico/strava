@@ -8,7 +8,6 @@ click
 coverage
 docutils
 entrypoints
-flake8
 Flask
 gunicorn
 idna
