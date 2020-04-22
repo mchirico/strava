@@ -1,5 +1,7 @@
 import logging
 import time
+import datetime
+import os
 
 from credentials.creds import RefreshToken
 from firebase.firebase import UserData
@@ -83,6 +85,10 @@ class RefreshDatabaseUpdate:
     def refresh_result(self):
         return self._rresult
 
+    @property
+    def access_token(self):
+        return self._rresult['access_token']
+
     def doRefresh(self):
         if self.seconds_left < 1:
             return
@@ -93,6 +99,7 @@ class RefreshDatabaseUpdate:
             self.updateDb()
 
     def updateDb(self):
+
         id = self._result['id']
         lastname = self._result['lastname']
         firstname = self._result['firstname']
@@ -104,8 +111,5 @@ class RefreshDatabaseUpdate:
                      access_token,
                      refresh_token, expires_at)
         u.update()
-
-
-
 
 

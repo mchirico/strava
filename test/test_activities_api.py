@@ -28,7 +28,6 @@ import swagger_client
 from swagger_client.api.activities_api import ActivitiesApi  # noqa: E501
 from swagger_client.rest import ApiException
 from pprint import pprint
-
 import credentials
 
 configuration = swagger_client.Configuration()
@@ -51,11 +50,6 @@ class TestActivitiesApi(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testCreds(self):
-        a = credentials.creds.Auth('33e3e2b6056587fb5b22d7f6f27a0609861ed7a4')
-        r = a.getAuth()
-        print(r)
-
     def test_getActivity(self):
         before = 1587426805  # Integer | An epoch timestamp to use for filtering
         # activities that have taken place before a certain time. (optional)
@@ -73,7 +67,7 @@ class TestActivitiesApi(unittest.TestCase):
         pass
 
     def test_get_activity_by_id(self):
-        activity_id = 3317805693
+        activity_id = 3332505802
         api_response = self.api.get_activity_by_id(activity_id)
 
         # Nice summary ... maybe use
@@ -85,8 +79,7 @@ class TestActivitiesApi(unittest.TestCase):
         pprint(api_response)
 
         # TODO: find way to make this work.
-        #r = self.route.get_route_as_gpx(3322177112)
-
+        # r = self.route.get_route_as_gpx(3322177112)
 
         pass
 

@@ -16,3 +16,4 @@ class RefreshTestSuite(TestCase):
 
         print(refresh.seconds_left)
         refresh.doRefresh()
+        print(refresh.access_token)

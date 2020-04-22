@@ -2,7 +2,11 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 import os.path
 from os import path
+import time
+import datetime
 
+os.environ['TZ'] = 'US/Eastern'
+time.tzset()
 
 def findFile(file="firebase.json"):
     if path.exists("credentials/{}".format(file)):
@@ -32,6 +36,9 @@ class UserData:
         self.expires_at = expires_at
 
     def update(self):
+        now = datetime.datetime.now()
+        timeStamp = now.strftime("%Y-%m-%dT%H:%M:%S.%s")
+        timeStamp_epoch = now.timestamp()
         doc_ref = db.collection(u'strava').document(str(self.lastname)).collection(
             str(self.id)).document(str(self.firstname))
         doc_ref.set({
@@ -40,5 +47,7 @@ class UserData:
             u'firstname': self.firstname,
             u'access_token': self.access_token,
             u'refresh_token': self.refresh_token,
-            u'expires_at': self.expires_at
+            u'expires_at': self.expires_at,
+            u'timeStamp': timeStamp,
+            u'timeStamp_epoch': timeStamp_epoch
         })

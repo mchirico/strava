@@ -53,6 +53,7 @@ jobs:
        mkdir -p credentials
        gsutil cp gs://nodesepta/strava/credentials/__init__.py ./credentials/__init__.py
        gsutil cp gs://nodesepta/strava/credentials/creds.py ./credentials/creds.py
+       gsutil cp gs://nodesepta/strava/credentials/firebase.json ./credentials/firebase.json
        ls -l
        ls -l credentials
 
