@@ -1,9 +1,8 @@
 import logging
 import time
-import datetime
-import os
 
-from credentials.creds import RefreshToken
+
+from credentials import RefreshToken
 from firebase.firebase import UserData
 
 
