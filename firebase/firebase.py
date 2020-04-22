@@ -1,23 +1,13 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 import os.path
-from os import path
+
+from utils.util import findFile
 import time
 import datetime
 
 os.environ['TZ'] = 'US/Eastern'
 time.tzset()
-
-def findFile(file="firebase.json"):
-    if path.exists("credentials/{}".format(file)):
-        return "credentials/{}".format(file)
-    if path.exists("../credentials/{}".format(file)):
-        return "../credentials/{}".format(file)
-    if path.exists("/credentials/{}".format(file)):
-        return "/credentials/{}".format(file)
-    if path.exists("etc/strava/credentials/{}".format(file)):
-        return "etc/strava/credentials/{}".format(file)
-
 
 cred = credentials.Certificate(findFile("firebase.json"))
 firebase_admin.initialize_app(cred)
@@ -39,7 +29,8 @@ class UserData:
         now = datetime.datetime.now()
         timeStamp = now.strftime("%Y-%m-%dT%H:%M:%S.%s")
         timeStamp_epoch = now.timestamp()
-        doc_ref = db.collection(u'strava').document(str(self.lastname)).collection(
+        doc_ref = db.collection(u'strava').document(
+            str(self.lastname)).collection(
             str(self.id)).document(str(self.firstname))
         doc_ref.set({
             u'id': self.id,
