@@ -4,6 +4,7 @@ import time
 
 from credentials import RefreshToken
 from firebase.firebase import UserData
+from firebase.firebase import db
 
 
 class Token:
@@ -69,7 +70,7 @@ class RefreshDatabaseUpdate:
 
         for doc in docs:
             result = doc.to_dict()
-            print(u'{} => {}'.format(doc.id, doc.to_dict()))
+            # print(u'{} => {}'.format(doc.id, doc.to_dict()))
         self._result = result
 
     @property
@@ -112,3 +113,9 @@ class RefreshDatabaseUpdate:
         u.update()
 
 
+def get_test_access():
+    lastname = 'test'
+    id = 55529309
+    refresh = RefreshDatabaseUpdate(db, lastname, id)
+    refresh.doRefresh()
+    return refresh.access_token
