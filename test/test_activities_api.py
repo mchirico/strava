@@ -28,10 +28,11 @@ import swagger_client
 from swagger_client.api.activities_api import ActivitiesApi  # noqa: E501
 from swagger_client.rest import ApiException
 from pprint import pprint
-import credentials
+
+from token_utils.token import get_test_access
 
 configuration = swagger_client.Configuration()
-configuration.access_token = credentials.getMycreds()
+configuration.access_token = get_test_access()
 
 
 # swagger_client.ActivitiesApi(swagger_client.ApiClient(configuration))
@@ -69,6 +70,9 @@ class TestActivitiesApi(unittest.TestCase):
     def test_get_activity_by_id(self):
         activity_id = 3332505802
         api_response = self.api.get_activity_by_id(activity_id)
+        pprint(api_response)
+
+        print('\n\n  --------- \n\n\n')
 
         # Nice summary ... maybe use
         api_response = self.api.get_laps_by_activity_id(activity_id)
@@ -78,6 +82,8 @@ class TestActivitiesApi(unittest.TestCase):
         api_response = self.api.get_activity_by_id_with_http_info(activity_id)
         pprint(api_response)
 
+        # r = swagger_client.models.detailed_activity.DetailedActivity()
+        # pprint(r)
         # TODO: find way to make this work.
         # r = self.route.get_route_as_gpx(3322177112)
 
