@@ -28,6 +28,7 @@ import swagger_client
 from swagger_client.api.activities_api import ActivitiesApi  # noqa: E501
 from swagger_client.rest import ApiException
 from pprint import pprint
+import utils
 
 from token_utils.token import get_test_access
 
