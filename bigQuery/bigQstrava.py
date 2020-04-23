@@ -7,7 +7,7 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = findFile("bigquery.json")
 os.environ['TZ'] = 'US/Eastern'
 time.tzset()
 
-class BigQ:
+class BQStrava:
 
     def __init__(self):
         self.client = bigquery.Client()
@@ -23,11 +23,3 @@ class BigQ:
         query_job = self.client.query(query)
         [x for x in query_job]
         return query_job
-
-        """ % (id, ret, msg, self.getTime(), raw, label)
-
-      query_job = self.client.query(query)
-      [x for x in query_job]  # Make an API request.
-      print("result:", query_job)
-      return query_job
-      """

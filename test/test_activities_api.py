@@ -69,7 +69,7 @@ class TestActivitiesApi(unittest.TestCase):
         pass
 
     def test_get_activity_by_id(self):
-        activity_id = 3332505802
+        activity_id = 3337410766
         api_response = self.api.get_activity_by_id(activity_id)
         pprint(api_response)
 
