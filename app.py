@@ -7,7 +7,7 @@ import credentials
 
 from flask import Flask, request, session
 from firebase.firebase import db, UserData
-from token_utils.token import Token, HandleCreds
+from token_utils.token import Token, HandleCreds, ClearSession
 import logging
 
 import requests
@@ -27,6 +27,11 @@ yourThread = threading.Thread()
 def create_app():
     app = Flask(__name__)
     app.secret_key = credentials.creds.secretSessionKey()
+
+    @app.route('/logout', methods=['POST', 'GET'])
+    def logout():
+        ClearSession(session)
+        return 'done'
 
     @app.route('/auth', methods=['POST', 'GET'])
     def auth():

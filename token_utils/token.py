@@ -1,7 +1,6 @@
 import logging
 import time
 
-
 from credentials import RefreshToken
 from firebase.firebase import UserData
 from firebase.firebase import db
@@ -38,6 +37,11 @@ class Token:
     @property
     def code(self):
         return self._code
+
+
+class ClearSession:
+    def __init__(self, session):
+        session.clear()
 
 
 class HandleCreds:

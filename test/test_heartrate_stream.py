@@ -15,6 +15,13 @@ from __future__ import absolute_import
 
 import unittest
 
+from token_utils.token import get_test_access
+
+import swagger_client
+configuration = swagger_client.Configuration()
+configuration.access_token = get_test_access()
+
+
 import swagger_client
 from swagger_client.models.heartrate_stream import HeartrateStream  # noqa: E501
 from swagger_client.rest import ApiException
@@ -24,6 +31,8 @@ class TestHeartrateStream(unittest.TestCase):
     """HeartrateStream unit test stubs"""
 
     def setUp(self):
+        self.api = swagger_client.api.activities_api.ActivitiesApi(
+            swagger_client.ApiClient(configuration))
         pass
 
     def tearDown(self):
@@ -32,7 +41,8 @@ class TestHeartrateStream(unittest.TestCase):
     def testHeartrateStream(self):
         """Test HeartrateStream"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = swagger_client.models.heartrate_stream.HeartrateStream()  # noqa: E501
+        # model = swagger_client.models.heartrate_stream.HeartrateStream()
+
         pass
 
 
