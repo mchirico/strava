@@ -6,3 +6,5 @@ gsutil cp creds.py gs://nodesepta/strava/credentials/creds.py
 gsutil cp firebase.json gs://nodesepta/strava/credentials/firebase.json
 gsutil cp update.sh gs://nodesepta/strava/credentials/update.sh
 gsutil cp bigquery.json gs://nodesepta/strava/credentials/bigquery.json
+gsutil cp storage.json gs://nodesepta/strava/credentials/storage.json
+gsutil cp strava.json gs://nodesepta/strava/credentials/strava.json

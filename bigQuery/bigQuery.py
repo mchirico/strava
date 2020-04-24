@@ -3,7 +3,7 @@ import os
 import time
 from utils.util import findFile
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = findFile("bigquery.json")
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = findFile("strava.json")
 os.environ['TZ'] = 'US/Eastern'
 time.tzset()
 

@@ -90,11 +90,18 @@ class TestActivitiesApi(unittest.TestCase):
 
         pass
 
+    def test_mytest(self):
+        model = swagger_client.models.altitude_stream.AltitudeStream()  #
+        print(model)
+        pass
+
     def test_get_comments_by_activity_id(self):
         """Test case for get_comments_by_activity_id
 
         List Activity Comments  # noqa: E501
         """
+
+        # noqa: E501
         pass
 
     def test_get_kudoers_by_activity_id(self):
