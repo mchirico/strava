@@ -3,16 +3,12 @@ import threading
 import atexit
 import time
 import credentials
-# from gmail.bigQuery.bigquery import BigQ
+from grab.grab import Grab
 
 from flask import Flask, request, session
 from firebase.firebase import db, UserData
 from token_utils.token import Token, HandleCreds, ClearSession
 import logging
-
-import requests
-
-# from gmail.pubsub.pubsub import PubSub
 
 POOL_TIME = 3000  # Seconds
 
@@ -33,9 +29,23 @@ def create_app():
         ClearSession(session)
         return 'done'
 
+    @app.route('/test', methods=['GET', 'POST'])
+    def my_test():
+        return 'test'
+
+    @app.route('/grabdata', methods=['POST', 'GET'])
+    def grab_data():
+        access_token = session.get('access_token', False)
+        if access_token:
+            before = 1587426805
+            after = 1577922712
+            grab = Grab(access_token, before, after)
+            grab.storage_collect()
+            return 'success'
+        return 'grab'
+
     @app.route('/auth', methods=['POST', 'GET'])
     def auth():
-        error = None
         if request.method == 'POST':
             return 'post: {}\n'.format(request)
         else:
@@ -51,9 +61,6 @@ def create_app():
 
     @app.route('/')
     def hello_world():
-        #       b = BigQ()
-        #       return 'time: {}\ncount: {}\n'.format(b.getTime(),
-        #       commonDataStruct)
         state = "aabk3amikelasplst"
         link = "https://www.strava.com/oauth/authorize?client_id=7704&state" \
                "={}" \

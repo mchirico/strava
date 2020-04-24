@@ -70,7 +70,8 @@ class TestActivitiesApi(unittest.TestCase):
 
     def test_get_activity_by_id(self):
         activity_id = 3337410766
-        api_response = self.api.get_activity_by_id(activity_id)
+        api_response = self.api.get_activity_by_id(activity_id,
+                                                   include_all_efforts=True)
         pprint(api_response)
 
         print('\n\n  --------- \n\n\n')
@@ -91,8 +92,12 @@ class TestActivitiesApi(unittest.TestCase):
         pass
 
     def test_mytest(self):
-        model = swagger_client.models.altitude_stream.AltitudeStream()  #
-        print(model)
+        activity_id = 3337410766
+        api_response = self.api.get_laps_by_activity_id_with_http_info(
+            activity_id)
+        pprint(api_response)
+        # model = swagger_client.models.altitude_stream.AltitudeStream()  #
+        # print(model)
         pass
 
     def test_get_comments_by_activity_id(self):
