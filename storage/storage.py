@@ -44,3 +44,10 @@ class Buckets:
         blob.upload_from_string('New contents!')
         files = [x.name for x in bucket.list_blobs()]
         return files
+
+    def list(self,prefix=''):
+        client = storage.Client()
+        bucket = client.get_bucket(BUCKET)
+        files = [x.name for x in bucket.list_blobs(prefix=prefix)]
+        return files
+

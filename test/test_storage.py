@@ -10,7 +10,7 @@ class BigQTestSuite(TestCase):
         print(files)
 
     def test_createFromString(self):
-        file = 'junk.txt'
+        file = '/a/b/c/junk.txt'
         data = b'data'
         s = Buckets()
         s.createFromString(file, data)
@@ -18,3 +18,8 @@ class BigQTestSuite(TestCase):
         result = s.readFromString(file)
         self.assertEqual(result, data)
         print(data)
+
+    def test_list(self):
+        s = Buckets()
+        print(s.list('/a'))
+
