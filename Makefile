@@ -17,4 +17,4 @@ deploy:
 	gcloud builds submit --tag gcr.io/septapig/strava --project septapig --timeout 35m23s
 	gcloud run deploy strava  --image gcr.io/septapig/strava --platform managed \
               --platform managed --allow-unauthenticated --project septapig \
-              --region us-east1 --port 8080 --max-instances 2  --memory 128Mi
+              --region us-east1 --port 8080 --max-instances 8  --memory 128Mi

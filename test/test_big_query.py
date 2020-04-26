@@ -7,3 +7,5 @@ class BigQTestSuite(TestCase):
     def test_time(self):
         bigQ = BigQ()
         print(bigQ.getTime())
+
+

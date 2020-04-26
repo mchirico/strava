@@ -41,8 +41,9 @@ def create_app():
             after = 1577922712
             grab = Grab(access_token, before, after)
             grab.storage_collect()
+            grab.bq_insert()
             return 'success'
-        return 'grab'
+        return 'grab access_token false'
 
     @app.route('/auth', methods=['POST', 'GET'])
     def auth():

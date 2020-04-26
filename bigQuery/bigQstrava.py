@@ -37,3 +37,29 @@ class BQStrava:
                            time_stamp, hash)]
         errors = self.client.insert_rows(table, rows_to_insert)
         print(errors)
+
+    def athlete_summary(self, rows):
+        rows_to_insert = []
+        for r in rows:
+            id = r.id
+            start = r.start_date.strftime("%Y-%m-%dT%H:%M:%S.%s")
+            stop = r.start_date.strftime("%Y-%m-%dT%H:%M:%S.%s")
+            distance = r.distance
+            max_speed = r.max_speed
+            moving_tine = r.moving_time
+            elapsed_time = r.elapsed_time
+            average_speed = r.average_speed
+            flagged = r.flagged
+            name = r.name
+            time_stamp = datetime.datetime.now().strftime(
+                "%Y-%m-%dT%H:%M:%S.%s")
+            athlete = r.athlete.id
+            rows_to_insert.append((id, start, stop, distance,
+                                   max_speed, moving_tine, elapsed_time,
+                                   average_speed, flagged, name,
+                                   time_stamp, athlete))
+
+        table_id = "septapig.strava.summary_tmp"
+        table = self.client.get_table(table_id)
+        errors = self.client.insert_rows(table, rows_to_insert)
+        print(errors)

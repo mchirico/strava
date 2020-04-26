@@ -13,6 +13,7 @@ class Grab:
         r = activity.get_activity(self.before, self.after)
         bqi = BigQInsert()
         bqi.insertraw(self.before, self.after, r)
+        bqi.summary(r)
         return self
 
     def storage_collect(self):
