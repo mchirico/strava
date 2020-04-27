@@ -5,7 +5,7 @@ import time
 import credentials
 from grab.grab import Grab
 
-from flask import Flask, request, session
+from flask import Flask, request, session, send_from_directory
 from firebase.firebase import db, UserData
 from token_utils.token import Token, HandleCreds, ClearSession
 import logging
@@ -21,7 +21,9 @@ yourThread = threading.Thread()
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder=None)
+
+    angular_folder = os.path.join(app.root_path, 'angular_display')
     app.secret_key = credentials.creds.secretSessionKey()
 
     @app.route('/logout', methods=['POST', 'GET'])
@@ -36,12 +38,23 @@ def create_app():
     @app.route('/grabdata', methods=['POST', 'GET'])
     def grab_data():
         access_token = session.get('access_token', False)
+
         if access_token:
             before = 1587426805
             after = 1577922712
             grab = Grab(access_token, before, after)
             grab.storage_collect()
             grab.bq_insert()
+
+            delta = before - after
+
+            for i in range(0, 15):
+                before = after
+                after = after - delta
+                grab = Grab(access_token, before, after)
+                grab.storage_collect()
+                grab.bq_insert()
+
             return 'success'
         return 'grab access_token false'
 
@@ -60,7 +73,7 @@ def create_app():
 
         return 'Could not get code:'
 
-    @app.route('/')
+    @app.route('/login')
     def hello_world():
         state = "aabk3amikelasplst"
         link = "https://www.strava.com/oauth/authorize?client_id=7704&state" \
@@ -80,6 +93,16 @@ def create_app():
                    ''.format(commonDataStruct, link)
         else:
             return 'Hi {} {} {}'.format(firstname, lastname, id)
+
+    @app.route('/<path:filename>')
+    def angular(filename):
+        print("filename: {}".format(filename))
+        return send_from_directory(angular_folder, filename)
+
+    @app.route('/')
+    def index():
+        print("default:")
+        return send_from_directory(angular_folder, 'index.html')
 
     def interrupt():
         global yourThread

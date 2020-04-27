@@ -1,5 +1,6 @@
 
 build:
+	cd angular && ./updateDist.sh
 	docker build --no-cache -t gcr.io/septapig/strava -f Dockerfile .
 	#gcloud builds submit --tag gcr.io/septapig/strava --project septapig --timeout 35m23s
 
@@ -14,6 +15,7 @@ pull:
 
 
 deploy:
+	cd angular && ./updateDist.sh
 	gcloud builds submit --tag gcr.io/septapig/strava --project septapig --timeout 35m23s
 	gcloud run deploy strava  --image gcr.io/septapig/strava --platform managed \
               --platform managed --allow-unauthenticated --project septapig \
