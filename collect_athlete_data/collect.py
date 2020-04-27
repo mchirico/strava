@@ -2,7 +2,9 @@ import swagger_client
 from swagger_client.api.activities_api import ActivitiesApi  # noqa: E501
 import logging
 from bigQuery.bigQstrava import BQStrava
+
 from storage.storage import Buckets
+from streams.streams import Stream
 
 configuration = swagger_client.Configuration()
 
@@ -27,6 +29,7 @@ class StorageInsert:
         configuration.access_token = access_token
         self.api = swagger_client.api.activities_api.ActivitiesApi(
             swagger_client.ApiClient(configuration))
+        self.stream = Stream(access_token)
 
     def buildSummaryPrefix(self, before, after, r):
         athlete_id = r[0].athlete.id
@@ -53,6 +56,10 @@ class StorageInsert:
             json = self.api.get_laps_by_activity_id(id)
             self.b.createFromString(file, str(json).encode())
 
+            file = 'event/%s/%s/stream.json' % (athlete_id, id)
+            json = self.stream.get_stream(id)
+            self.b.createFromString(file, str(json).encode())
+
 
 class BigQInsert:
 
@@ -61,3 +68,16 @@ class BigQInsert:
 
         bqstrava = BQStrava()
         bqstrava.athlete_raw(athlete_id, before, after, raw)
+
+    def summary(self, raw):
+        bqstrava = BQStrava()
+        bqstrava.athlete_summary(raw)
+        query = """
+                insert into `septapig.strava.summary`
+        SELECT distinct b.* FROM `septapig.strava.summary` a
+        RIGHT OUTER join  `septapig.strava.summary_tmp` b
+        on a.id = b.id and a.start = b.start
+        where a.id is null
+                """
+        bqstrava.select(query)
+

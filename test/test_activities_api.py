@@ -26,9 +26,9 @@ import unittest
 
 import swagger_client
 from swagger_client.api.activities_api import ActivitiesApi  # noqa: E501
-from swagger_client.rest import ApiException
+from bigQuery.bigQstrava import BQStrava
 from pprint import pprint
-import utils
+
 
 from token_utils.token import get_test_access
 
@@ -60,6 +60,28 @@ class TestActivitiesApi(unittest.TestCase):
         api_response = self.api.get_logged_in_athlete_activities(before=before,
                                                                  after=after)
         pprint(api_response)
+
+    def test_getActivityBigQ(self):
+        before = 1587426805  # Integer | An epoch timestamp to use for filtering
+        # activities that have taken place before a certain time. (optional)
+        after = 1577922712  # Integer | An epoch timestamp to use for filtering
+
+        api_response = self.api.get_logged_in_athlete_activities(before=before,
+                                                                 after=after)
+
+        bq = BQStrava()
+        bq.athlete_summary(api_response)
+        query = """
+        insert into `septapig.strava.summary`
+SELECT distinct b.* FROM `septapig.strava.summary` a
+RIGHT OUTER join  `septapig.strava.summary_tmp` b
+on a.id = b.id and a.start = b.start
+where a.id is null
+        """
+        bq.select(query)
+
+
+
 
     def test_create_activity(self):
         """Test case for create_activity
