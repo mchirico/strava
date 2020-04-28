@@ -1,0 +1,7 @@
+angular
+.git
+.github
+*.md
+coverage.xml
+Dockerfile
+README.md
