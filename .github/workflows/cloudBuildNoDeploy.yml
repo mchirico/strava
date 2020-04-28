@@ -59,6 +59,12 @@ jobs:
        ls -l credentials
 
 
+    - name: Temp for test
+      run: |
+        mkdir -p templates
+        echo "test" >> templates/index.html
+
+
     - name: Test with pytest
       run: |
         pip install pytest

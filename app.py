@@ -2,11 +2,15 @@ import os
 import threading
 import atexit
 import time
+import uuid
 import credentials
 from grab.grab import Grab
 
-from flask import Flask, request, session, send_from_directory
+from flask import Flask, request, session, send_from_directory, make_response, \
+    render_template
+
 from firebase.firebase import db, UserData
+from state.state import State
 from token_utils.token import Token, HandleCreds, ClearSession
 import logging
 
@@ -23,8 +27,18 @@ yourThread = threading.Thread()
 def create_app():
     app = Flask(__name__, static_folder=None)
 
-    angular_folder = os.path.join(app.root_path, 'angular_display')
+    angular_folder = os.path.join(app.root_path, 'templates')
     app.secret_key = credentials.creds.secretSessionKey()
+
+    @app.route('/setcookie', methods=['POST', 'GET'])
+    def setcookie():
+        if request.method == 'POST':
+            user = request.form['nm']
+
+        resp = make_response(render_template('index.html'))
+        resp.set_cookie('code', 'someBigCodeHere')
+
+        return resp
 
     @app.route('/logout', methods=['POST', 'GET'])
     def logout():
@@ -68,7 +82,15 @@ def create_app():
             HandleCreds(token, credentials, UserData, session)
             access_token = session.get('access_token', False)
             if access_token:
-                return access_token
+                resp = make_response(render_template('index.html'))
+                resp.set_cookie('access_token', access_token)
+                resp.set_cookie('lastname', session.get('lastname', 'err'))
+                resp.set_cookie('firstname', session.get('firstname', 'err'))
+                resp.set_cookie('refresh_token',
+                                session.get('refresh_token', 'err'))
+                resp.set_cookie('state', session.get('state', 0))
+                return resp
+
             return 'Something went wrong'
 
         return 'Could not get code:'
@@ -96,17 +118,45 @@ def create_app():
 
     @app.route('/<path:filename>')
     def angular(filename):
-        print("filename: {}".format(filename))
+        token = Token(request)
+        if token.status:
+            HandleCreds(token, credentials, UserData, session)
+            access_token = session.get('access_token', False)
+            if access_token:
+                logging.debug('PATH: access_token: {}'.format(access_token))
+            else:
+                logging.warning('PATH route / no token')
         return send_from_directory(angular_folder, filename)
 
     @app.route('/')
     def index():
-        print("default:")
-        return send_from_directory(angular_folder, 'index.html')
+
+        token = Token(request)
+        if token.status:
+            HandleCreds(token, credentials, UserData, session)
+            access_token = session.get('access_token', False)
+            if access_token:
+                logging.debug('access_token: {}'.format(access_token))
+
+        resp = make_response(render_template('index.html'))
+
+        session_state = session.get('state', 0)
+        if session_state == 0:
+            state = State(uuid.uuid4())
+            state.insert()
+            resp.set_cookie('state', state.state)
+            session['state'] = state.state
+        else:
+            state = State(session_state)
+            state.insert()
+            resp.set_cookie('state', state.state)
+
+        return resp
 
     def interrupt():
         global yourThread
-        yourThread.cancel()
+        if "cancel" in dir(yourThread):
+            yourThread.cancel()
 
     def doStuff():
         global commonDataStruct

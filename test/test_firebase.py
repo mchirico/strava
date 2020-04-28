@@ -33,3 +33,4 @@ class FirebaseTestSuite(TestCase):
         s = a.sampleData()
         j = json.loads(s)
         print(j)
+
