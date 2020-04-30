@@ -20,6 +20,7 @@ class Token:
             self._scope = self.request.args.get('scope')
         except KeyError:
             self._status = False
+            return
         self._status = True
 
     @property
@@ -51,7 +52,7 @@ class HandleCreds:
         if token.status:
             a = credentials.creds.Auth(token.code)
             d = a.getAuth()
-            logging.warning("d: {}".format(d))
+
             if 'expires_at' in d:
                 u = UserData(d['athlete']['id'], d['athlete']['lastname'],
                              d['athlete']['firstname'],
@@ -63,6 +64,8 @@ class HandleCreds:
                 session['firstname'] = d['athlete']['firstname']
                 session['expires_at'] = d['expires_at']
                 session['access_token'] = d['access_token']
+                session['refresh_token'] = d['refresh_token']
+                session['state'] = token.state
 
 
 class RefreshDatabaseUpdate:

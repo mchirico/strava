@@ -5,7 +5,10 @@ build:
 	#gcloud builds submit --tag gcr.io/septapig/strava --project septapig --timeout 35m23s
 
 run:
-	docker run -p 8080:8080 --env PORT=8080  --rm -it gcr.io/septapig/strava
+	docker run --name strava -p 8080:8080 --env PORT=8080  --rm -it gcr.io/septapig/strava
+
+stop:
+	docker stop strava
 
 push:
 	docker push gcr.io/septapig/strava
