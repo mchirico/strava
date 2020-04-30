@@ -11,3 +11,10 @@
 <br>
 <a
   href="{{url}}">auth</a>
+
+<div>Items</div>
+<ul>
+  <li class="text" *ngFor="let item of items | async">
+    {{item.name}}
+  </li>
+</ul>

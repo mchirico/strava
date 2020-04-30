@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {CookieService} from 'ngx-cookie-service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 
 function buildURL(code: string) {
@@ -18,6 +20,8 @@ function buildURL(code: string) {
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  items: Observable<any[]>;
+
   url = '';
   state = '';
   access_token = '';
@@ -25,7 +29,12 @@ export class MainComponent implements OnInit {
   lastname = '';
   firstname = '';
 
-  constructor(private route: ActivatedRoute, private cookieService: CookieService) {
+  constructor(private route: ActivatedRoute, private cookieService: CookieService,
+              private firestore: AngularFirestore) {
+
+
+    this.items = firestore.collection('items').valueChanges();
+
     this.cookieService.set('Test', 'Hello World');
     this.state = this.cookieService.get('state');
     this.access_token = this.cookieService.get('access_token');
@@ -42,6 +51,9 @@ export class MainComponent implements OnInit {
       // this.param2 = params['param2'];
       console.log(params)
     });
+
+
+
   }
 
   ngOnInit(): void {

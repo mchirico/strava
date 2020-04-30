@@ -5,3 +5,5 @@ angular
 coverage.xml
 Dockerfile
 README.md
+junk
+data*
