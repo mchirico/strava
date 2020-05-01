@@ -12,9 +12,20 @@
 <a
   href="{{url}}">auth</a>
 
+<div *ngIf="auth.user | async as user; else showDisplay">
+  <h1>Hello {{ user.displayName }}!</h1>
+</div>
+<ng-template #showDisplay>
+  <p>You are not logged into Google... see auth page</p>
+</ng-template>
+
+<button (click)="addItem({name: 'small'})">Small Add</button>
+<p>
+  <button (click)="update({name: 'small',food: 'good'})">update</button>
+</p>
 <div>Items</div>
 <ul>
   <li class="text" *ngFor="let item of items | async">
-    {{item.name}}
+    {{item.name }} {{item.size}}
   </li>
 </ul>
