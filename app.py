@@ -1,6 +1,7 @@
 import os
 import threading
 import atexit
+import datetime
 import time
 import uuid
 import credentials
@@ -8,7 +9,9 @@ from grab.grab import Grab
 
 from flask import Flask, request, session, send_from_directory, make_response, \
     render_template
+from flask_wtf.csrf import CSRFProtect
 
+csrf = CSRFProtect()
 from firebase.firebase import db, UserData
 from state.state import State
 from token_utils.token import Token, HandleCreds, ClearSession
@@ -26,6 +29,7 @@ yourThread = threading.Thread()
 
 def create_app():
     app = Flask(__name__, static_folder=None)
+    csrf.init_app(app)
 
     angular_folder = os.path.join(app.root_path, 'templates')
     app.secret_key = credentials.creds.secretSessionKey()
@@ -54,13 +58,30 @@ def create_app():
         access_token = session.get('access_token', False)
 
         if access_token:
-            before = 1587426805
-            after = 1577922712
+            now = datetime.datetime.now()
+            epoch = int(now.timestamp())
+            delta = 9504093
+            before = epoch
+            after = before - delta
             grab = Grab(access_token, before, after)
             grab.storage_collect()
             grab.bq_insert()
+            return 'success'
+        return 'grab access_token false'
 
-            delta = before - after
+    @app.route('/grabdataall', methods=['POST', 'GET'])
+    def grab_data_all():
+        access_token = session.get('access_token', False)
+
+        if access_token:
+            now = datetime.datetime.now()
+            epoch = int(now.timestamp())
+            delta = 9504093
+            before = epoch
+            after = before - delta
+            grab = Grab(access_token, before, after)
+            grab.storage_collect()
+            grab.bq_insert()
 
             for i in range(0, 15):
                 before = after

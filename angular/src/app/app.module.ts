@@ -18,6 +18,10 @@ import {HttpClientModule} from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { CookieService } from 'ngx-cookie-service';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +41,8 @@ import { CookieService } from 'ngx-cookie-service';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     StoreModule.forRoot({}, {})
   ],
   providers: [CookieService],

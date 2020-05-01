@@ -6,6 +6,7 @@ from state.state import State
 
 TEST_DB = 'test.db'
 
+
 class AppTestSuite(TestCase):
     """App cases."""
 
@@ -22,7 +23,6 @@ class AppTestSuite(TestCase):
 
         self.app = app.test_client()
 
-
         self.assertEqual(app.debug, False)
 
     # executed after each test
@@ -37,9 +37,24 @@ class AppTestSuite(TestCase):
             for c_key, c_value in parse_cookie(cookie).items():
                 if c_key == name:
                     state = State(c_value)
-                    self.assertEqual(c_value,state.state)
+                    self.assertEqual(c_value, state.state)
                     state.delete()
                     print(c_value)
 
+        self.assertEqual(response.status_code, 200)
 
+    def test_main_session(self):
+        with self.app.session_transaction() as session:
+            session['state'] = 'test'
+
+        response = self.app.get('/', follow_redirects=True)
+        cookies = response.headers.getlist('Set-Cookie')
+        name = 'state'
+        for cookie in cookies:
+            for c_key, c_value in parse_cookie(cookie).items():
+                if c_key == name:
+                    state = State(c_value)
+                    self.assertEqual(c_value, state.state)
+                    state.delete()
+                    print(c_value)
         self.assertEqual(response.status_code, 200)

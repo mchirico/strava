@@ -57,6 +57,14 @@ jobs:
          npm install -g @angular/cli
 
 
+    # Credentials
+    - name: Get and Create Credentials
+      run: |
+       mkdir -p angular/src/environments
+       gsutil cp gs://nodesepta/strava/credentials/environment* angular/src/environments
+       ls -l angular/src/environments
+
+
     # Angular install and test
     - name: Angular install and test
       run: |

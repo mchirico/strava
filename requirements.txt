@@ -13,6 +13,7 @@ entrypoints
 firebase-admin
 flake8
 Flask
+Flask-WTF
 google-api-core
 google-api-python-client
 google-auth
@@ -45,7 +46,7 @@ py
 pyasn1
 pyasn1-modules
 pycodestyle
-pyflakes<2.2.0
+pyflakes<2.2.0,>=2.1.0
 Pygments
 pyparsing
 pytest
@@ -68,4 +69,5 @@ uritemplate
 urllib3
 wcwidth
 Werkzeug
+WTForms
 zipp
