@@ -32,7 +32,7 @@ describe('AuthComponent', () => {
 
   it('should logout', () => {
     component.logout()
-
+    expect(valueAngularFireAuthSpy.signOut).toHaveBeenCalled()
   });
 });
 
