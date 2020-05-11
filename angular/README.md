@@ -25,6 +25,9 @@ ng g service service/backend
 npm install d3 --save
 npm install @types/d3 --save-dev
 
+# Firbase
+ng add @angular/fire@next
+npm install firebase @angular/fire --save
 
 ```
 
